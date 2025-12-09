@@ -17,6 +17,7 @@ import Persona from '../src/_domain/entities/Persona';
 
 const PeopleList = observer(() => {
   const [error, setError] = useState<string | null>(null);
+  const [isReady, setIsReady] = useState(false);
   const vmRef = useRef<PersonaListaVM | null>(null);
 
   useEffect(() => {
@@ -24,6 +25,7 @@ const PeopleList = observer(() => {
       if (vmRef.current === null) {
         // El token en TYPES debe coincidir con el que registraste en el contenedor
         vmRef.current = container.get<PersonaListaVM>(TYPES.PeopleListVM);
+        setIsReady(true);
       }
     } catch (err: any) {
       console.error('Error resolviendo VM:', err);
@@ -39,7 +41,7 @@ const PeopleList = observer(() => {
     );
   }
 
-  if (!vmRef.current) {
+  if (!isReady || !vmRef.current) {
     return (
       <SafeAreaView style={styles.container}>
         <Text>Cargando...</Text>
