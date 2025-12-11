@@ -58,8 +58,8 @@ const PeopleList = observer(() => {
       }}
       style={({ pressed }) => [styles.item, pressed && styles.itemPressed]}
     >
-      {item.foto ? (
-        <Image source={{ uri: item.foto }} style={styles.avatar} />
+      {item.foto && item.foto.trim() ? (
+        <Image source={{ uri: item.foto }} style={styles.avatar} onError={() => console.warn('Foto no disponible')} />
       ) : (
         <View style={styles.placeholder} />
       )}
@@ -75,9 +75,29 @@ const PeopleList = observer(() => {
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Listado de Personas</Text>
 
-      <Text style={styles.selected}>
-        Persona seleccionada: {vm.personaSeleccionada?.nombre ?? '-'} {vm.personaSeleccionada?.apellidos ?? ''}
-      </Text>
+      <View style={styles.selectedContainer}>
+        {vm.personaSeleccionada && (
+          <>
+            {vm.personaSeleccionada.foto && vm.personaSeleccionada.foto.trim() ? (
+              <Image source={{ uri: vm.personaSeleccionada.foto }} style={styles.largeAvatar} onError={() => console.warn('Foto no disponible')} />
+            ) : (
+              <View style={styles.largePlaceholder} />
+            )}
+            <Text style={styles.selectedName}>
+              {vm.personaSeleccionada.nombre} {vm.personaSeleccionada.apellidos}
+            </Text>
+            {vm.personaSeleccionada.telefono && (
+              <Text style={styles.detail}>📱 {vm.personaSeleccionada.telefono}</Text>
+            )}
+            {vm.personaSeleccionada.direccion && (
+              <Text style={styles.detail}>📍 {vm.personaSeleccionada.direccion}</Text>
+            )}
+            {vm.personaSeleccionada.nombreDepartamento && (
+              <Text style={styles.detail}>🏢 {vm.personaSeleccionada.nombreDepartamento}</Text>
+            )}
+          </>
+        )}
+      </View>
 
       <FlatList
         data={vm.personasList}
@@ -99,7 +119,11 @@ export default App;
 const styles = StyleSheet.create({
   container: { flex: 1, paddingHorizontal: 16, paddingTop: 8, backgroundColor: '#fff' },
   title: { fontSize: 22, fontWeight: 'bold', marginBottom: 8, textAlign: 'center' },
-  selected: { fontSize: 16, marginBottom: 12, textAlign: 'center' },
+  selectedContainer: { backgroundColor: '#f5f5f5', padding: 16, borderRadius: 8, marginBottom: 12, alignItems: 'center' },
+  selectedName: { fontSize: 18, fontWeight: 'bold', marginTop: 8, textAlign: 'center' },
+  detail: { fontSize: 14, color: '#555', marginTop: 4, textAlign: 'center' },
+  largeAvatar: { width: 80, height: 80, borderRadius: 40 },
+  largePlaceholder: { width: 80, height: 80, borderRadius: 40, backgroundColor: '#ddd' },
   item: {
     flexDirection: 'row',
     alignItems: 'center',

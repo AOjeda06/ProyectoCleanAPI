@@ -7,7 +7,7 @@ export default class Persona {
     private _direccion?: string;
     private _telefono?: string;
     private _foto?: string;
-    private _idDepartamento?: number;
+    private _nombreDepartamento?: string;
     //#endregion
 
     //#region Constructores
@@ -19,7 +19,7 @@ export default class Persona {
         direccion?: string | null;
         telefono?: string | null;
         foto?: string | null;
-        idDepartamento?: number | null;
+        nombreDepartamento?: string | null;
     }) {
         this._id = params.id;
         this._nombre = params.nombre;
@@ -33,7 +33,7 @@ export default class Persona {
         this._direccion = params.direccion ?? undefined;
         this._telefono = params.telefono ?? undefined;
         this._foto = params.foto ?? undefined;
-        this._idDepartamento = params.idDepartamento ?? undefined;
+        this._nombreDepartamento = params.nombreDepartamento ?? undefined;
     }
     //#endregion
 
@@ -87,11 +87,11 @@ export default class Persona {
         this._foto = value;
     }
 
-    get idDepartamento(): number | undefined {
-        return this._idDepartamento;
+    get nombreDepartamento(): string | undefined {
+        return this._nombreDepartamento;
     }
-    set idDepartamento(value: number | undefined) {
-        this._idDepartamento = value;
+    set nombreDepartamento(value: string | undefined) {
+        this._nombreDepartamento = value;
     }
     //#endregion
 }
